@@ -43,6 +43,7 @@ func main() {
 
 	head.val = 4
 	fmt.Printf("Node is: %v\n", head)
+	fmt.Printf("Left is: %v, Right is: %v\n", head.left, head.right)
 
 	head.Insert(5)
 	fmt.Printf("Right node is: %v\n", head.right)
