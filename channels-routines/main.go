@@ -1,18 +1,50 @@
 package main
 
+import (
+	"log"
+	"net/http"
+	"os"
+
+	newrelic "github.com/newrelic/go-agent"
+)
+
 var (
 	maxJob    = 10000
-	maxWorker = 50
+	maxWorker = 100
 )
+
+var RC RedisCli
 
 func init() {
 	JobQueue = make(chan Job, maxJob)
+
 	go func() {
-		for {
-			j := Job{true}
-			JobQueue <- j
+		config := newrelic.NewConfig("DiscordBot", os.Getenv("NEWRELIC"))
+		app, err := newrelic.NewApplication(config)
+
+		if err != nil {
+			log.Panic(err)
 		}
+
+		http.HandleFunc(newrelic.WrapHandleFunc(app, "/dadjoke", func(w http.ResponseWriter, r *http.Request) {
+			j := Job{w, r, make(chan bool)}
+			JobQueue <- j
+			for {
+				select {
+				case <-j.Done:
+					return
+				}
+			}
+		}))
+
+		port := os.Getenv("PORT")
+		if port == "" {
+			port = ":5200"
+		}
+		http.ListenAndServe(port, nil)
 	}()
+
+	RC = ExampleNewClient()
 }
 
 func main() {

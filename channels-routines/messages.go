@@ -6,6 +6,10 @@ type DadJokesResponse struct {
 	Status int    `json:"status"`
 }
 
+type DadJoke struct {
+	Joke string `json:"joke"`
+}
+
 // func GetMessages() {
 // 	go func() {
 // 		for {

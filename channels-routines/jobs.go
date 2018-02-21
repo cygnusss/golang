@@ -3,11 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
 type Job struct {
-	Msg bool
+	w    http.ResponseWriter
+	r    *http.Request
+	Done chan bool
 }
 
 var JobQueue chan Job
@@ -43,6 +46,7 @@ func (w Worker) Start() {
 
 func (j *Job) Run() {
 	var msg DadJokesResponse
+	var body DadJoke
 
 	c := &http.Client{}
 
@@ -62,5 +66,25 @@ func (j *Job) Run() {
 		fmt.Printf("Error at decoding a response: %s", err.Error())
 	}
 
-	fmt.Printf("resp msg:%s\n", msg.Joke)
+	resp.Body.Close()
+	jk := msg.Joke
+
+	go func(jk string) {
+		RC.Insert(jk)
+	}(jk)
+
+	body.Joke = jk
+	bodyJSON, err := json.Marshal(body)
+
+	if err != nil {
+		log.Panic(err)
+	}
+
+	j.w.Header().Set("Content-Type", "application/json")
+	j.w.WriteHeader(http.StatusOK)
+	j.w.Write(bodyJSON)
+
+	j.Done <- true
+
+	fmt.Printf("resp msg:%s\n", jk)
 }
