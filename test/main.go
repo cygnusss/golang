@@ -11,7 +11,7 @@ func init() {
 
 func main() {
 	// creates a channel to stop routines
-	stop := make(chan bool)
+	// stop := make(chan bool)
 
 	// create a worker pool with max worker count
 
