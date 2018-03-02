@@ -10,14 +10,12 @@ import (
 
 var (
 	maxJob    = 10000
-	maxWorker = 100
+	maxWorker = 1000
 )
 
 var RC RedisCli
 
 func init() {
-	JobQueue = make(chan Job, maxJob)
-
 	go func() {
 		config := newrelic.NewConfig("DiscordBot", os.Getenv("NEWRELIC"))
 		app, err := newrelic.NewApplication(config)
@@ -48,10 +46,10 @@ func init() {
 }
 
 func main() {
-
 	stop := make(chan bool)
-
 	wPool := make(chan chan Job, maxWorker)
+	JobQueue = make(chan Job, maxJob)
+
 	for i := 0; i < maxWorker; i++ {
 		w := NewWorker(wPool)
 		w.Start()
