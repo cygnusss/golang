@@ -26,7 +26,7 @@ func Constructor(capacity int) LRUCache {
 }
 
 func (this *LRUCache) Get(key int) int {
-	var value int
+	value := -1
 	for i, item := range this.storage {
 		if item.key == key {
 			if i != 0 {
@@ -42,9 +42,10 @@ func (this *LRUCache) Get(key int) int {
 func (this *LRUCache) Put(key int, value int) {
 	item := Item{key, value}
 
-	if this.isFull == true {
+	if this.isFull {
 		i := this.size - 1
-		this.storage[i] = item
+		this.storage = append(this.storage, item)
+		this.storage = append(this.storage[:i], this.storage[i+1:]...)
 	} else {
 		this.size++
 		this.storage = append(this.storage, item)
@@ -61,14 +62,22 @@ func (this *LRUCache) Test() []Item {
 
 func main() {
 	cache := Constructor(2)
-
-	cache.Put(2, 10)
-	cache.Put(1, 5)
+	// ["LRUCache","put","put","get","put","get","put","get","get","get"]
+	// [[2],[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]
+	cache.Put(1, 1)
+	cache.Put(2, 2)
+	fmt.Println("Cache is", cache.Test())
 
 	cache.Get(1)
+	cache.Put(3, 3)
+	fmt.Println("Cache is", cache.Test())
 
-	cache.Put(3, 5)
+	cache.Get(2)
+	cache.Put(4, 4)
+	fmt.Println("Cache is", cache.Test())
 
-	fmt.Printf("Get 2 should return 10: %v\n", cache.Get(2))
-	fmt.Printf("Show the storage: %v\n", cache.Test())
+	cache.Get(3)
+	cache.Get(4)
+	fmt.Println("Cache is", cache.Test())
+
 }
