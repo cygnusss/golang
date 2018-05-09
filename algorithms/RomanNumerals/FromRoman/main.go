@@ -18,7 +18,8 @@ func FromRoman(num string) int {
 	n := 0
 
 	for i, val := range num {
-		var next int
+		next := 0
+
 		cur := romans[string(val)]
 		if i != len(num)-1 {
 			next = romans[string(num[i+1])]
@@ -38,7 +39,7 @@ func main() {
 	t1 := FromRoman("X")
 	t2 := FromRoman("IX")
 	t3 := FromRoman("MXII")
-	t4 := FromRoman("MIX")
+	t4 := FromRoman("CMXLV")
 
 	fmt.Printf("Test 1: %d\n", t1)
 	fmt.Printf("Test 2: %d\n", t2)
