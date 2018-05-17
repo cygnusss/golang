@@ -4,6 +4,13 @@ import (
 	"fmt"
 )
 
+// LinkedListMethods ...
+type LinkedListMethods interface {
+	Insert(interface{})
+	Reverse()
+	Print()
+}
+
 // LinkedList creates a linked list
 type LinkedList struct {
 	Head *LinkedListNode
@@ -27,6 +34,19 @@ func (c *LinkedList) Insert(value interface{}) {
 		c.Tail.NextNode = &node
 	}
 	c.Tail = &node
+}
+
+// Reverse reverses a linked list
+func (c *LinkedList) Reverse() {
+	node := c.Head
+	next := node.NextNode.NextNode
+
+	for next != nil {
+		temp := node
+		next = node.NextNode.NextNode
+		node = node.NextNode
+		node.NextNode = temp
+	}
 }
 
 // Print prints all nodes in a given linked list
