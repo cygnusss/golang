@@ -73,4 +73,6 @@ func main() {
 	newList.Insert(7)
 
 	newList.Print()
+	newList.Reverse()
+	newList.Print()
 }
