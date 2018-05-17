@@ -25,7 +25,7 @@ func reverse(curr *student) *student {
 	return temp
 }
 
-func main() {
+func run() {
 	students := new(student)
 
 	students.next = nil
@@ -64,5 +64,13 @@ func main() {
 		fmt.Println(s.name, s.age, s.ssn)
 
 	}
+}
 
+func main() {
+	newList := LinkedList{nil, nil}
+	newList.Insert(5)
+	newList.Insert(6)
+	newList.Insert(7)
+
+	newList.Print()
 }
