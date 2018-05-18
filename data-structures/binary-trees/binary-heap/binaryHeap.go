@@ -33,14 +33,6 @@ func (b *BinaryHeap) GetParentIndex(i int) int {
 	return (i - 1) / 2
 }
 
-func (b *BinaryHeap) HeapifyUp(i int) {
-
-}
-
-func (b *BinaryHeap) HeapifyDown(i int) {
-
-}
-
 func main() {
 	fmt.Println("haha")
 }
