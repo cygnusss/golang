@@ -5,7 +5,7 @@ import (
 )
 
 func TestInsert(t *testing.T) {
-	bh := BinaryHeap{[]int{}}
+	bh := BinaryHeap{[]int{}, 0}
 	bh.Insert(0)
 
 	if len(bh.Nodes) == 0 {
@@ -14,7 +14,7 @@ func TestInsert(t *testing.T) {
 }
 
 func TestGetParentIndex(t *testing.T) {
-	bh := BinaryHeap{[]int{}}
+	bh := BinaryHeap{[]int{}, 0}
 
 	zero := bh.GetParentIndex(0)
 	one := bh.GetParentIndex(1)
@@ -33,7 +33,7 @@ func TestGetParentIndex(t *testing.T) {
 	}
 }
 func TestCorrectInsertion(t *testing.T) {
-	bh := BinaryHeap{[]int{}}
+	bh := BinaryHeap{[]int{}, 0}
 
 	for i := 10; i > 0; i-- {
 		bh.Insert(i)
@@ -47,5 +47,18 @@ func TestCorrectInsertion(t *testing.T) {
 		if parent > child {
 			t.Error("Parent is greater than child!")
 		}
+	}
+}
+
+func TestPoll(t *testing.T) {
+	bh := BinaryHeap{[]int{}, 0}
+
+	for i := 10; i > 0; i-- {
+		bh.Insert(i)
+	}
+
+	bh.Poll()
+	if true {
+		t.Error("After polling:", bh.Nodes)
 	}
 }
