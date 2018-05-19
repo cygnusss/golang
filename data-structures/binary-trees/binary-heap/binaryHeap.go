@@ -35,6 +35,7 @@ func (b *BinaryHeap) Poll() int {
 	root := b.Nodes[0]
 
 	b.Nodes[0] = b.Nodes[b.Size-1]
+	b.Nodes = b.Nodes[:b.Size-1]
 	b.Size--
 
 	i := 0
@@ -43,7 +44,7 @@ func (b *BinaryHeap) Poll() int {
 		smallerChild := &b.Nodes[i*2+1]
 		smindx := i*2 + 1
 
-		if *smallerChild > b.Nodes[i*2+2] {
+		if b.HasRightChild(i) && *smallerChild > b.Nodes[i*2+2] {
 			smallerChild = &b.Nodes[i*2+2]
 			smindx = i*2 + 2
 		}

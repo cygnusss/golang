@@ -4,6 +4,29 @@ import (
 	"testing"
 )
 
+func assertSlicesEqual(a, b []int) bool {
+
+	if a == nil && b == nil {
+		return true
+	}
+
+	if a == nil || b == nil {
+		return false
+	}
+
+	if len(a) != len(b) {
+		return false
+	}
+
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+
+	return true
+}
+
 func TestInsert(t *testing.T) {
 	bh := BinaryHeap{[]int{}, 0}
 	bh.Insert(0)
@@ -52,13 +75,18 @@ func TestCorrectInsertion(t *testing.T) {
 
 func TestPoll(t *testing.T) {
 	bh := BinaryHeap{[]int{}, 0}
+	exp := []int{2, 3}
 
-	for i := 10; i > 0; i-- {
+	for i := 3; i > 0; i-- {
 		bh.Insert(i)
 	}
-
+	t.Log("Before polling:", bh.Nodes)
 	bh.Poll()
-	if true {
-		t.Error("After polling:", bh.Nodes)
+	t.Log("After polling:", bh.Nodes)
+
+	eq := assertSlicesEqual(bh.Nodes, exp)
+
+	if !eq {
+		t.Error("Incorrect Polling")
 	}
 }
