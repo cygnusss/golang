@@ -36,21 +36,6 @@ func (c *LinkedList) Insert(value interface{}) {
 	c.Tail = &node
 }
 
-/*
-Initialize three pointers prev as NULL, curr as head and next as NULL.
-Iterate trough the linked list. In loop, do following.
-// Before changing next of current,
-// store next node
-next = curr->next
-
-// This is where actual reversing happens
-curr->next = prev
-
-// Move prev and curr one step forward
-prev = curr
-curr = next
-*/
-
 // Reverse reverses a linked list
 func (c *LinkedList) Reverse() {
 	var prev *LinkedListNode

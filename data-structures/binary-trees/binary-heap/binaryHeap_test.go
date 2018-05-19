@@ -28,7 +28,7 @@ func assertSlicesEqual(a, b []int) bool {
 }
 
 func TestInsert(t *testing.T) {
-	bh := BinaryHeap{[]int{}, 0}
+	bh := BinaryHeap.Init()
 	bh.Insert(0)
 
 	if len(bh.Nodes) == 0 {
@@ -80,13 +80,25 @@ func TestPoll(t *testing.T) {
 	for i := 3; i > 0; i-- {
 		bh.Insert(i)
 	}
-	t.Log("Before polling:", bh.Nodes)
 	bh.Poll()
-	t.Log("After polling:", bh.Nodes)
 
 	eq := assertSlicesEqual(bh.Nodes, exp)
 
 	if !eq {
 		t.Error("Incorrect Polling")
+	}
+}
+
+func TestPeak(t *testing.T) {
+	bh := BinaryHeap{[]int{}, 0}
+
+	for i := 15; i > 0; i-- {
+		bh.Insert(i)
+	}
+
+	peak := bh.Peak()
+
+	if peak != 1 {
+		t.Error("Peak function is not correct")
 	}
 }

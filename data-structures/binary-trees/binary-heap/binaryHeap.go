@@ -1,12 +1,9 @@
 package binaryHeap
 
-import (
-	"fmt"
-)
-
 type BinaryHeapMethods interface {
 	Insert(item int)
 	GetParentIndex(i int) int
+	Init()
 }
 
 type BinaryHeap struct {
@@ -14,7 +11,7 @@ type BinaryHeap struct {
 	Size  int
 }
 
-func (b *BinaryHeap) Peek() int {
+func (b *BinaryHeap) Peak() int {
 	return b.Nodes[0]
 }
 
@@ -71,8 +68,4 @@ func (b *BinaryHeap) HasLeftChild(i int) bool {
 func (b *BinaryHeap) HasRightChild(i int) bool {
 	cid := i*2 + 2
 	return cid < b.Size
-}
-
-func main() {
-	fmt.Println("haha")
 }
